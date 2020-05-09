@@ -2,8 +2,8 @@ package aoc;
 
 public enum Direction 
 {
-    U,
-    D,
-    L,
-    R
+  U,
+  D,
+  L,
+  R
 }

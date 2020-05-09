@@ -9,12 +9,12 @@ import java.util.List;
 
 public class Day3 
 {
-    private static final String S_INPUT_FILE = "inputFiles\\aoc3input.txt";
+  private static final String S_INPUT_FILE = "inputFiles\\aoc3input.txt";
 	 
-    public static void main(String[] args) 
-    {
-        Integer lowestCombinedSteps = null;
-        Integer lowestCrossingDistance = null;
+  public static void main(String[] args) 
+  {
+    Integer lowestCombinedSteps = null;
+    Integer lowestCrossingDistance = null;
 		File inputFile = new File (S_INPUT_FILE);
 		BufferedReader reader;
 		List<WirePath> wire1FullPath = new ArrayList<WirePath>();
@@ -29,7 +29,7 @@ public class Day3
 			List<String> wire2Input = Arrays.asList(reader.readLine().split(","));
 			reader.close();
 			
-		    for (String instruction : wire1Input)
+		  for (String instruction : wire1Input)
 			{
 				Direction direction = Direction.valueOf(instruction.substring(0,1));
 				int distance = Integer.parseInt(instruction.substring(1,instruction.length()));
@@ -40,8 +40,8 @@ public class Day3
 				xPosition = wirePath.getXPositionFinal();
 				yPosition = wirePath.getYPositionFinal();
 			}
-		    
-		    xPosition = 0;
+		  
+		  xPosition = 0;
 			yPosition = 0;
 			numSteps = 0;
 			
@@ -107,11 +107,11 @@ public class Day3
 		}
 		catch (Exception e)
 		{
-		    //TODO
+		  //TODO
 		}
-     }
-    
-    private static Integer getCurrentLowestCombinedSteps(int xPositionWire2, int yPositionWire2, int numSteps, Integer previousLowestCombinedSteps, List<WirePath> wire1FullPath)
+   }
+  
+  private static Integer getCurrentLowestCombinedSteps(int xPositionWire2, int yPositionWire2, int numSteps, Integer previousLowestCombinedSteps, List<WirePath> wire1FullPath)
 	{
 		Integer currentLowestCombinedSteps = previousLowestCombinedSteps;
 		
@@ -120,6 +120,7 @@ public class Day3
 			if (wirePath.isOnWirePath(xPositionWire2, yPositionWire2))	
 			{
 				int combinedSteps =  numSteps + wirePath.getNumStepsForPosition(xPositionWire2, yPositionWire2);
+				
 				if (currentLowestCombinedSteps == null || combinedSteps < currentLowestCombinedSteps)
 				{
 					currentLowestCombinedSteps = combinedSteps;
@@ -130,24 +131,24 @@ public class Day3
 		
 		return currentLowestCombinedSteps;
 	}
-    
-    private static Integer getCurrentLowestCrossingDistance(int xPositionWire2, int yPositionWire2, Integer previousLowestCrossingDistance, List<WirePath> wire1FullPath)
+  
+  private static Integer getCurrentLowestCrossingDistance(int xPositionWire2, int yPositionWire2, Integer previousLowestCrossingDistance, List<WirePath> wire1FullPath)
 	{
-    	Integer currentLowestCrossingDistance = previousLowestCrossingDistance;
-        int distanceFromCentre = Math.abs(xPositionWire2) + Math.abs(yPositionWire2);
-        
-        if (currentLowestCrossingDistance == null || distanceFromCentre < currentLowestCrossingDistance)
-        {
-        	positionLoop: for (WirePath wirePath : wire1FullPath)
-    		{
-    			if (wirePath.isOnWirePath(xPositionWire2, yPositionWire2))
+  	Integer currentLowestCrossingDistance = previousLowestCrossingDistance;
+    int distanceFromCentre = Math.abs(xPositionWire2) + Math.abs(yPositionWire2);
+    
+    if (currentLowestCrossingDistance == null || distanceFromCentre < currentLowestCrossingDistance)
+    {
+    	positionLoop: for (WirePath wirePath : wire1FullPath)
+  		{
+  			if (wirePath.isOnWirePath(xPositionWire2, yPositionWire2))
 				{
-    				currentLowestCrossingDistance = distanceFromCentre;
-    				break positionLoop;
+  				currentLowestCrossingDistance = distanceFromCentre;
+  				break positionLoop;
 				}
-    		}
-        }
-    	
-    	return currentLowestCrossingDistance;
+  		}
+    }
+  	
+  	return currentLowestCrossingDistance;
 	}
 }
