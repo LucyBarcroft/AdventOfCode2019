@@ -29,6 +29,9 @@ public class Day3
 			List<String> wire2Input = Arrays.asList(reader.readLine().split(","));
 			reader.close();
 			
+			// Construct a full list of wire paths for wire 1
+			// One wire path corresponds to a single instruction.
+			// Has a starting point, direction and distance. 
 		  for (String instruction : wire1Input)
 			{
 				Direction direction = Direction.valueOf(instruction.substring(0,1));
@@ -41,10 +44,14 @@ public class Day3
 				yPosition = wirePath.getYPositionFinal();
 			}
 		  
+		  // reset values to starting position for second wire.
 		  xPosition = 0;
 			yPosition = 0;
 			numSteps = 0;
 			
+			// for each point wire 2 goes through, determine whether wire 1 has passed this point.
+			// Crossing distance/combined steps is calculated for points which cross paths
+			// Only the minimum crossing distance/combined steps value is kept 
 			for (String instruction : wire2Input)
 			{
 				Direction direction = Direction.valueOf(instruction.substring(0,1));
@@ -111,6 +118,16 @@ public class Day3
 		}
    }
   
+  /**
+   * Get the lowest number of combined steps the wire has taken so far to reach a crossing point
+   * 
+   * @param xPositionWire2
+   * @param yPositionWire2
+   * @param numSteps
+   * @param previousLowestCombinedSteps
+   * @param wire1FullPath
+   * @return
+   */
   private static Integer getCurrentLowestCombinedSteps(int xPositionWire2, int yPositionWire2, int numSteps, Integer previousLowestCombinedSteps, List<WirePath> wire1FullPath)
 	{
 		Integer currentLowestCombinedSteps = previousLowestCombinedSteps;
@@ -132,6 +149,15 @@ public class Day3
 		return currentLowestCombinedSteps;
 	}
   
+  /**
+   * Get the lowest distance so far from the centre that lies a crossing point
+   * 
+   * @param xPositionWire2
+   * @param yPositionWire2
+   * @param previousLowestCrossingDistance
+   * @param wire1FullPath
+   * @return
+   */
   private static Integer getCurrentLowestCrossingDistance(int xPositionWire2, int yPositionWire2, Integer previousLowestCrossingDistance, List<WirePath> wire1FullPath)
 	{
   	Integer currentLowestCrossingDistance = previousLowestCrossingDistance;

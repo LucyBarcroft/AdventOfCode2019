@@ -85,6 +85,14 @@ public class WirePath
     return mYPositionFinal;
   }
   
+  /**
+   * Determine whether the specified position is on this wire path.
+   * 
+   * @param xPosition    the x-coordinate of the position
+   * @param yPosition    the y-coordinate of the position
+   * 
+   * @return      whether the position is on this wire path
+   */
   public boolean isOnWirePath(int xPosition, int yPosition)
   {
     boolean onWirePath = false;
@@ -108,7 +116,8 @@ public class WirePath
    * 
    * @param xPosition   the x co-ordinate of the position
    * @param yPosition   the y co-ordinate of the position
-   * @return
+   * 
+   * @return    the number of steps for wire to reach this position
    */
   public int getNumStepsForPosition(int xPosition, int yPosition)
   {

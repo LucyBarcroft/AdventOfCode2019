@@ -17,7 +17,6 @@ public class Day2
   private static final int S_NOUN = 12;
   private static final int S_VERB = 2;
   private static final int S_OUTPUT = 19690720;
-
   /**
    * This first does Part 1 - calculates the output of the computer with 12 and 2 as noun and verb
    * It then does Part 2 - calculates the noun and verb needed to get the required output
@@ -25,14 +24,24 @@ public class Day2
    */
   public static void main(String[] args) 
   {
-    LOGGER.setLevel(Level.INFO);
+    LOGGER.setLevel(Level.FINE);
+    
+    //-------------------------------------------------------------------------
+    // PART 1
+    //-------------------------------------------------------------------------
     ArrayList<Integer> intCodeProgram = initialiseIntCodeProgram(S_NOUN, S_VERB);
     IntCodeComputer computer = new IntCodeComputer(intCodeProgram);
     int output = computer.run();
     LOGGER.log(Level.INFO, "output: " + output);
   
+    //-------------------------------------------------------------------------
+    // PART 2
+    //-------------------------------------------------------------------------
     int noun = 0;
     int verb = 0;
+    
+    // Loop over nouns and verbs and run the corresponding program to see if 
+    // they generate the required output. Break when required output is found. 
     nounloop: while (noun <= 99)
     {
       verbloop: while (verb <= 99)
@@ -40,12 +49,8 @@ public class Day2
         intCodeProgram = initialiseIntCodeProgram(noun, verb);
         computer = new IntCodeComputer(intCodeProgram);
         output = computer.run();
-
-        if (output > S_OUTPUT)
-        {
-          break verbloop;
-        }
-        else if (output == S_OUTPUT)
+        
+        if (output == S_OUTPUT)
         {
           break nounloop;
         }
@@ -73,15 +78,15 @@ public class Day2
   private static ArrayList<Integer> initialiseIntCodeProgram(int noun, int verb)
   {
     LOGGER.log(Level.FINE,
-           "Entering intialiseIntCodeProgram: \n"
-         + "noun: " + noun + "\n"
-         + "verb: " + verb);
+               "Entering intialiseIntCodeProgram: \n"
+             + "noun: " + noun + "\n"
+             + "verb: " + verb);
     ArrayList<Integer> intCodeProgram = (ArrayList<Integer>) S_INPUT_LIST.clone();
     intCodeProgram.set(1, noun);
     intCodeProgram.set(2, verb);
     
     LOGGER.log(Level.FINE,
-           "returning intCodeProgram: " + intCodeProgram);
+               "returning intCodeProgram: " + intCodeProgram);
     return intCodeProgram;
   }
 }

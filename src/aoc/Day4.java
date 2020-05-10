@@ -7,52 +7,52 @@ public class Day4
   
   public static void main(String[] args) 
   {
-  int numValidPasswords = 0;
-  
-  for (Integer i = S_START_INTEGER; i <= S_END_INTEGER; i++)
-  {
-    Integer secondPrevInteger = null;
-    Integer prevInteger = null;
-    String integerAsString = i.toString();
-    boolean containsMatch = false;
-    boolean isIncreasing = true;
-    Integer matchingNumber = null;
-    charLoop: for (int ii = 0; ii < integerAsString.length(); ii++)
+    int numValidPasswords = 0;
+    
+    for (Integer i = S_START_INTEGER; i <= S_END_INTEGER; i++)
     {
-      int thisInteger = Integer.parseInt(integerAsString.substring(ii, ii+1));
-      
-      if (prevInteger != null && thisInteger < prevInteger)
+      Integer secondPrevInteger = null;
+      Integer prevInteger = null;
+      String integerAsString = i.toString();
+      boolean containsMatch = false;
+      boolean isIncreasing = true;
+      Integer matchingNumber = null;
+      charLoop: for (int ii = 0; ii < integerAsString.length(); ii++)
       {
-        isIncreasing = false;
-        break charLoop;
-      }
-      
-      if (prevInteger != null && thisInteger == prevInteger)
-      {
-        if (matchingNumber == null || matchingNumber == thisInteger)
+        int thisInteger = Integer.parseInt(integerAsString.substring(ii, ii+1));
+        
+        if (prevInteger != null && thisInteger < prevInteger)
         {
-          if (secondPrevInteger != null && thisInteger == secondPrevInteger)
+          isIncreasing = false;
+          break charLoop;
+        }
+        
+        if (prevInteger != null && thisInteger == prevInteger)
+        {
+          if (matchingNumber == null || matchingNumber == thisInteger)
           {
-            containsMatch = false;
-            matchingNumber = null;
-          }
-          else
-          {
+            if (secondPrevInteger != null && thisInteger == secondPrevInteger)
+            {
+              containsMatch = false;
+              matchingNumber = null;
+            }
+            else
+            {
               containsMatch = true;
               matchingNumber = thisInteger;
+            }
           }
         }
+        secondPrevInteger = prevInteger;
+        prevInteger = thisInteger;
       }
-      secondPrevInteger = prevInteger;
-      prevInteger = thisInteger;
+      
+      if (isIncreasing && containsMatch)
+      {
+        numValidPasswords += 1;
+      }  
     }
     
-    if (isIncreasing && containsMatch)
-    {
-      numValidPasswords += 1;
-    }  
-  }
-  
-  System.out.println(numValidPasswords);
+    System.out.println(numValidPasswords);
   }
 }
