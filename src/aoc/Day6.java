@@ -2,7 +2,9 @@ package aoc;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,34 +14,18 @@ public class Day6
 {
   
   private static final String S_INPUT_FILE = "inputFiles\\aoc6input.txt";
-  
-  private static HashMap<String, Planet> planets = new HashMap<String, Planet>();
 
   public static void main(String[] args)
   {
-    // INITIALISE PLANETS
-    File inputFile = new File (S_INPUT_FILE);
-    BufferedReader reader;
-    String orbit;
-    int numSteps = 0;
-    
     try
     {
-      reader = new BufferedReader(new FileReader(inputFile));
-      
-      while ((orbit = reader.readLine()) != null)
-      {
-        String[] parentAndChild = orbit.split("\\)");
-        String parentName = parentAndChild[0];
-        String childName = parentAndChild[1];
-        Planet parentPlanet = getPlanetByName(parentName);
-        Planet childPlanet = getPlanetByName(childName);
-        parentPlanet.addChildPlanet(childPlanet);
-      }
+      // INITIALISE PLANETS
+      HashMap<String, Planet> planets = initialisePlanetsFromFile(S_INPUT_FILE);
       
       // PART 1
       Collection<Planet> planetsList = planets.values();
-     
+      int numSteps = 0;
+      
       for (Planet planet : planetsList)
       {
         int numStepsForPlanet = planet.getDistanceToCentreOfMass();
@@ -57,22 +43,48 @@ public class Day6
       int distanceToSanta = youPlanet.getDistanceToPlanet(sanPlanet);
       System.out.println("distance to santa: " + distanceToSanta);
     }
-    catch (Exception e)
+    catch (IOException e)
     {
       e.printStackTrace();
     }
   }
   
-  private static Planet getPlanetByName(String planetName)
+  private static Planet getPlanetByName(String planetName, HashMap<String, Planet> planets)
   {
     Planet planet = planets.get(planetName);
     
     if (planet == null)
     {
       planet = new Planet(planetName);
+      planets.put(planetName, planet);
     }
     
     return planet;
+  }
+  
+  private static HashMap<String, Planet> initialisePlanetsFromFile(String fileName) 
+                                                 throws IOException, FileNotFoundException
+  {
+    File inputFile = new File (fileName);
+    BufferedReader reader;
+    String orbit;
+    HashMap<String, Planet> planets = new HashMap<String, Planet>();
+   
+    reader = new BufferedReader(new FileReader(inputFile));
+      
+    while ((orbit = reader.readLine()) != null)
+    {
+      String[] parentAndChild = orbit.split("\\)");
+      String parentName = parentAndChild[0];
+      String childName = parentAndChild[1];
+      Planet parentPlanet = getPlanetByName(parentName, planets);
+      Planet childPlanet = getPlanetByName(childName, planets);
+      parentPlanet.addChildPlanet(childPlanet);
+    }
+    
+    reader.close();
+    
+    return planets;
   }
 
 }
