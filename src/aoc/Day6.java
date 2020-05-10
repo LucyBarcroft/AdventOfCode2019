@@ -32,19 +32,8 @@ public class Day6
         String[] parentAndChild = orbit.split("\\)");
         String parentName = parentAndChild[0];
         String childName = parentAndChild[1];
-        Planet parentPlanet = planets.get(parentName);
-        Planet childPlanet = planets.get(childName);
-        if (parentPlanet == null)
-        {
-          parentPlanet = new Planet(parentName);
-          planets.put(parentName, parentPlanet);
-        }
-        if (childPlanet == null)
-        {
-          childPlanet = new Planet(childName);
-          planets.put(childName, childPlanet);
-        }
-        
+        Planet parentPlanet = getPlanetByName(parentName);
+        Planet childPlanet = getPlanetByName(childName);
         parentPlanet.addChildPlanet(childPlanet);
       }
       
@@ -72,6 +61,18 @@ public class Day6
     {
       e.printStackTrace();
     }
+  }
+  
+  private static Planet getPlanetByName(String planetName)
+  {
+    Planet planet = planets.get(planetName);
+    
+    if (planet == null)
+    {
+      planet = new Planet(planetName);
+    }
+    
+    return planet;
   }
 
 }
